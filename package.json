@@ -16,10 +16,11 @@
       {
         "command": "quick-sql.helloWorld",
         "title": "Hello World"
-      },{
-				"command": "quicksql.toSQL",
-				"title": "Quick SQL: Convert to SQL"
-			}
+      },
+      {
+        "command": "quicksql.toSQL",
+        "title": "Quick SQL: Convert to SQL"
+      }
     ]
   },
   "scripts": {
