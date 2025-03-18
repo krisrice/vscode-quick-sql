@@ -3,26 +3,9 @@
 import * as vscode from 'vscode';
 const { quicksql } = require( "@oracle/quicksql" );
 
-const URIs2Monitor = new Map<string,string>();
-
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-
-	const myScheme = 'qsql';
-	const myProvider = new class implements vscode.TextDocumentContentProvider {
-
-		// emitter and its event
-		onDidChangeEmitter = new vscode.EventEmitter<vscode.Uri>();
-		onDidChange = this.onDidChangeEmitter.event;
-
-		provideTextDocumentContent(uri: vscode.Uri): string {
-			// simply invoke cowsay, use uri-path as text
-			return "hi";
-		}
-	};
-	context.subscriptions.push(vscode.workspace.registerTextDocumentContentProvider(myScheme, myProvider));
-
 
 	context.subscriptions.push(vscode.commands.registerCommand('quicksql.toSQL', async () => {
 		if (!vscode.window.activeTextEditor) {
@@ -38,9 +21,7 @@ export function activate(context: vscode.ExtensionContext) {
 		const editor = getEditor(newFile);
 
 		const sql = quicksql.toDDL(document.getText());
-		
-		URIs2Monitor.set(document.uri.path, newFile.path);
-		
+				
 	    if (editor) {
 			// already open
 			updateSQL(editor, sql);			
@@ -52,7 +33,6 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 
 		vscode.workspace.onDidChangeTextDocument((e) => {
-			if (URIs2Monitor.has(e.document.uri.path)) {
 				if ( vscode.window.activeTextEditor ) {
 					const { document } = vscode.window.activeTextEditor;
 					const path = document.uri.path;
@@ -64,7 +44,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 					}
 				}
-			}});
+			});
 
 	}));
 
