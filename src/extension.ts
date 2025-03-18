@@ -44,26 +44,26 @@ export function activate(context: vscode.ExtensionContext) {
 			return; // no editor
 		}
 		const { document } = vscode.window.activeTextEditor;
-		
 		// get path-components, reverse it, and create a new uri
 		const path = document.uri.path;
 		const newFile = document.uri.with({ path: path + ".quick.sql"});
 		const text = document.getText();
 
-
+	
 		const editor = getEditor(newFile);
 
 		const sql = quicksql.toDDL(document.getText());
 
 	    if (editor) {
 			editor.edit(edit => {
-				edit.replace(new vscode.Range(0, 0, document.lineCount, 0), sql);
+				edit.replace(new vscode.Range(editor.document.lineAt(0).range.start, editor.document.lineAt(editor.document.lineCount - 1).range.end), sql);
+
 			});
+			
 		} else {			
-			await vscode.window.showTextDocument(newFile, { preview: false }).then(e => {
-				e.edit(edit => {
-					edit.replace(new vscode.Range(0, 0, document.lineCount, 0), sql);
-				});
+			await vscode.window.showTextDocument(newFile, { preview: false }).then(editor => {
+				editor.edit(edit => {
+					edit.replace(new vscode.Range(editor.document.lineAt(0).range.start, editor.document.lineAt(editor.document.lineCount - 1).range.end), sql);				});
 			});
 		}
 

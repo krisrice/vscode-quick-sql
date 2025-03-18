@@ -5,6 +5,8 @@ This is the README for your extension "quick-sql". After writing up a brief desc
 run 
 ```
 yarn install
+npm install
+
 ```
 
 Open in vscode

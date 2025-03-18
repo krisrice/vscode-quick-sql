@@ -19,10 +19,7 @@
       },{
 				"command": "quicksql.toSQL",
 				"title": "Quick SQL: Convert to SQL"
-			},{
-        "command": "quicksql.toQSQL",
-        "title": "Quick SQL: Convert to Quick SQL"
-      }
+			}
     ]
   },
   "scripts": {
